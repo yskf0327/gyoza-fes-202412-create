@@ -5,13 +5,10 @@ $dh = opendir($dir);
 while ($resource = readdir($dh)) {
   if (is_dir($resource)) {
     if (preg_match('/^\d{2}/', $resource)) {
-      // echo $resource;
-      // echo '<br>';
       array_push($dir_array, $resource);
     }
   }
 }
-// var_dump($dir_array);
 ?>
 
 <!DOCTYPE html>
@@ -30,13 +27,25 @@ while ($resource = readdir($dh)) {
       max-width: 600px;
       margin-inline: auto;
     }
+
+    .qr-code {
+      aspect-ratio: 1/1;
+      width: 400px;
+      margin-inline: auto;
+
+      img {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+    }
   </style>
 </head>
 
 <body>
   <div class="container">
-    <h1 class="mb-5">[課題] ふくおか餃子FES Webページ制作</h1>
-    <ul class="nav grid-container">
+    <h1 class="mb-5 text-center">[課題] ふくおか餃子FES Webページ制作</h1>
+    <ul class="nav grid-container mb-5 ">
       <?php
       foreach ($dir_array as $dir):
       ?>
@@ -45,9 +54,19 @@ while ($resource = readdir($dh)) {
         </li>
       <?php endforeach; ?>
     </ul>
+    <div id="qr-container" class="qr-code">
+      <p class="text-center">このページのQRコード</p>
+    </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+  <script>
+    const qrContainer = document.getElementById('qr-container');
+    const url = location.href;
+    const qrCodeElm = document.createElement('img');
+    qrCodeElm.src = 'https://api.qrserver.com/v1/create-qr-code/?data=' + url + '&size=400x400';
+    qrContainer.append(qrCodeElm);
+  </script>
 </body>
 
 </html>
